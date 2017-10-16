@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.hao</groupId>
+  <artifactId>beacon</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  
+  <properties>
+  	<sf.version>5.0.0.RELEASE</sf.version>
+  </properties>
+  
+  
+  <dependencies>
+  	<!-- spring的依赖包 -->
+  	<dependency>
+  		<!-- spring-context实现了spring注入容器并且依赖：spring-core, spring-expression, spring-aop, spring-beans。
+			这些依赖包使容器可以支持spring的一些核心技术：spring核心组件， spring EL表达式(SpEL)，面向切面编程，JavaBean机制 -->
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-context</artifactId>
+  		<version>${sf.version}</version>
+  	</dependency>
+  	
+  	<!-- spring的持久层依赖 -->
+  	<!-- 提供Hibernate和JPA功能的支持，比如HibernateTemplate和JpaTemplate以及一些额外的持久化相关的依赖：spring-jdbc和spring-tx -->
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-orm</artifactId>
+  		<version>${sf.version}</version>
+  	</dependency>
+  	
+  	<!-- springMVC的依赖 -->
+  	<!-- 提供对Spring Web和Servlet的支持 -->
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-web</artifactId>
+  		<version>${sf.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+    	<artifactId>spring-webmvc</artifactId>
+  		<version>${sf.version}</version>
+  	</dependency>
+  	
+  	<!-- mysql驱动 -->
+  	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>6.0.6</version>
+	</dependency>
+  	
+  	
+  </dependencies>
+</project>
