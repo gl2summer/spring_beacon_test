@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		
+		<bean id="commtcpimpl" class="com.hao.communication.CommTcpImpl">
+			<property name="port" value="12345" />
+			<property name="recvCallback" ref="manager" />
+		</bean>
+		
+		<bean id="manager" class="com.hao.manager.Manager">
+			<property name="ctcp" ref="commtcpimpl"></property>
+			<property name="sif" ref="plateStorage"></property>
+		</bean>
+
+</beans>

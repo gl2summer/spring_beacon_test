@@ -10,16 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-interface RecvCallback{
-	public void recv(char[] datas);
-}
-
 class ServerThread implements Runnable{
 	
 	private Socket client = null;
-	private RecvCallback recvCallback = null;
+	private DataRecvCallback recvCallback = null;
 	
-	public ServerThread(Socket client, RecvCallback recvCallback) {
+	public ServerThread(Socket client, DataRecvCallback recvCallback) {
 		super();
 		this.client = client;
 		this.recvCallback = recvCallback;
@@ -33,19 +29,20 @@ class ServerThread implements Runnable{
 			//获取Socket的输入流，用来接收从客户端发送过来的数据
 			BufferedReader buf = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			boolean flag = true;
+			int recvLen = 0;
 			char[] cbuf = new char[1024];
-			while(flag) {
+			while(flag&&(recvLen>=0)) {
 				//接收从客户端发送过来的数据
-				int recvLen = buf.read(cbuf, 0, cbuf.length);
-				if(recvCallback != null) {
-					recvCallback.recv(cbuf);
-				}
+				recvLen = buf.read(cbuf, 0, cbuf.length);
 				if(recvLen>0) {
 					System.out.printf("recv: ");
 					for(int i=0; i<recvLen; i++) {
 						System.out.printf("%02x ", Integer.valueOf(cbuf[i]));
 					}
 					System.out.println("");
+				}
+				if(recvCallback != null) {
+					recvCallback.recv(client, cbuf, recvLen);
 				}
 			}
 			out.close();
@@ -58,13 +55,35 @@ class ServerThread implements Runnable{
 }
 
 
-public class CommTcpImpl implements CommIf, Runnable,RecvCallback{
+public class CommTcpImpl implements CommIf, Runnable{
 
 	private ServerSocket server = null;
 	private List<Socket> clientList = null;
+	private int port;
+	private DataRecvCallback recvCallback = null;
 	
-	public CommTcpImpl(int port){
-		
+	public CommTcpImpl(){
+	}
+
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public DataRecvCallback getRecvCallback() {
+		return recvCallback;
+	}
+
+	public void setRecvCallback(DataRecvCallback recvCallback) {
+		this.recvCallback = recvCallback;
+	}
+
+
+	public void start() {
 		try {
 			server = new ServerSocket(port);
 			clientList = new ArrayList<Socket>();
@@ -75,12 +94,6 @@ public class CommTcpImpl implements CommIf, Runnable,RecvCallback{
 			e.printStackTrace();
 		}
 	}
-	
-	public void recv(char[] datas) {
-		// TODO Auto-generated method stub
-		System.out.println("recv call back");
-	}
-
 
 	public void run() {
 		// TODO Auto-generated method stub
@@ -96,7 +109,7 @@ public class CommTcpImpl implements CommIf, Runnable,RecvCallback{
 			}
 			System.out.println("accept");
 			clientList.add(client);
-			new Thread(new ServerThread(client,this)).start();
+			new Thread(new ServerThread(client, this.recvCallback)).start();
 		}
 		
 		try {
@@ -107,14 +120,14 @@ public class CommTcpImpl implements CommIf, Runnable,RecvCallback{
 		}
 	}
 
-	public boolean sendData(byte[] datas) {
+	public boolean sendData(Object obj, byte[] datas) {
 		// TODO Auto-generated method stub
+		Socket socket = (Socket)obj;
 		return false;
 	}
 
-	public byte[] recvData() {
+	public byte[] recvData(Object obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
