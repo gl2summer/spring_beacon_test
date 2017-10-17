@@ -43,6 +43,7 @@ public class StoragePlatesImpl implements StorageIf {
 					ds1.getMinor(), ds1.getRssiAvr(), ds1.getRssiList());
 			Statement smt = conn.createStatement();
 			smt.execute(sqlString);
+			smt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -58,6 +59,7 @@ public class StoragePlatesImpl implements StorageIf {
 			Statement smt = conn.createStatement();
 			
 			ResultSet rs = smt.executeQuery(sqlString);
+			smt.close();
 			
 			while(rs.next()) {
 				Integer id = rs.getInt("id");
@@ -86,6 +88,7 @@ public class StoragePlatesImpl implements StorageIf {
 			String sqlString = SqlText.MakeRemoveOneString(id);
 			Statement smt = conn.createStatement();
 			smt.execute(sqlString);
+			smt.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

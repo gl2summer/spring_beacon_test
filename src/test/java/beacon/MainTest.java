@@ -1,7 +1,10 @@
 package beacon;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.aop.aspectj.SingletonAspectInstanceFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -43,6 +46,10 @@ public class MainTest {
 		manager.start();
 	}
 	
+	private static void test4() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
