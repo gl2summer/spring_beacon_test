@@ -4,11 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.aop.aspectj.SingletonAspectInstanceFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.hao.communication.CommTcpImpl;
+import com.hao.logger.MyLogger;
 import com.hao.manager.Manager;
 import com.hao.storage.DataStruct1;
 import com.hao.storage.SqlText;
@@ -44,17 +48,27 @@ public class MainTest {
 		
 		Manager manager = context.getBean("manager", Manager.class);
 		manager.start();
+		
+		MyLogger logger = context.getBean("logger", MyLogger.class);
+		logger.init();
+		logger.myLoggerTest();
 	}
 	
 	private static void test4() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 	}
+
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
-		test3();
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("beacon.xml");
+		
+		MyLogger logger = context.getBean("logger", MyLogger.class);
+		logger.init();
+		logger.myLoggerTest();
+		//test3();
 	}
 
 }

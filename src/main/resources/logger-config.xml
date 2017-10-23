@@ -3,8 +3,8 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
-		<import resource="storage-config.xml"/>
-		<import resource="comm-config.xml"/>
-		<import resource="logger-config.xml"/>
-		
+		<bean id="logger" class="com.hao.logger.MyLogger">
+			<property name="configFile" value="src\\main\\resources\\log4j.properties" />
+			<constructor-arg name="name" value="null"></constructor-arg>
+		</bean>
 </beans>
