@@ -3,7 +3,7 @@
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 		
-		<bean id="logger" class="com.hao.logger.MyLogger">
+		<bean id="logger" class="com.hao.logger.MyLogger" init-method="init"> <!-- init-method是在property、constructor-arg等执行完后才执行的。另外还有：destroy-method="destroy" -->
 			<property name="configFile" value="src\\main\\resources\\log4j.properties" />
 			<constructor-arg name="name" value="null"></constructor-arg>
 		</bean>
