@@ -1,0 +1,3 @@
+2017-10-30 18:03:10,605-[TS] WARN main beacon.MainTest - warn
+2017-10-30 18:03:10,606-[TS] ERROR main beacon.MainTest - error
+2017-10-30 18:03:10,606-[TS] FATAL main beacon.MainTest - fatal

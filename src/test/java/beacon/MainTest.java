@@ -48,7 +48,7 @@ public class MainTest {
 		ApplicationContext context = new ClassPathXmlApplicationContext("beacon.xml");
 		
 		MyLogger logger = context.getBean("logger", MyLogger.class);
-		//logger.myLoggerTest();
+		logger.myLoggerTest();
 	}
 	
 	private static void test4() {
