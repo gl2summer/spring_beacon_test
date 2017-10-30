@@ -1,22 +1,23 @@
 package beacon;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
-import org.apache.log4j.PropertyConfigurator;
-import org.springframework.aop.aspectj.SingletonAspectInstanceFactory;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.hao.communication.CommTcpImpl;
 import com.hao.logger.MyLogger;
-import com.hao.manager.Manager;
 import com.hao.storage.DataStruct1;
 import com.hao.storage.SqlText;
 import com.hao.storage.StoragePlatesImpl;
+import com.hao.myBatis.*;
 
 
 
@@ -46,28 +47,42 @@ public class MainTest {
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("beacon.xml");
 		
-		Manager manager = context.getBean("manager", Manager.class);
-		manager.start();
-		
 		MyLogger logger = context.getBean("logger", MyLogger.class);
-		logger.init();
-		logger.myLoggerTest();
+		//logger.myLoggerTest();
 	}
 	
 	private static void test4() {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 	}
+	
+	private static void test5() throws IOException {
+		
+		String resource = "myBatis/myBatis-config.xml";
+		InputStream inputStream = Resources.getResourceAsStream(resource);
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession session = sqlSessionFactory.openSession();
+		
+		try {
+			session.selectOne("com.hao.mapping.userMapper.createTable");
+			UserInfo user = new UserInfo("jack", 33);
+			session.insert("com.hao.mapping.userMapper.add", user);
+			session.commit();
+			List<UserInfo> userinfos = session.selectList("com.hao.mapping.userMapper.list");
+			for(UserInfo user1:userinfos) {
+				System.out.println(user1);
+			}
+		}finally {
+			session.close();
+		}
+	}
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("beacon.xml");
-		
-		MyLogger logger = context.getBean("logger", MyLogger.class);
-		logger.myLoggerTest();
-		//test3();
+
+		test3();
+		test5();
 	}
 
 }

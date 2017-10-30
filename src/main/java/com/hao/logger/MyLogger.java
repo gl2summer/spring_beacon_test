@@ -5,6 +5,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import beacon.MainTest;
 
+
 public class MyLogger extends Logger{
 
 	protected MyLogger(String name) {
