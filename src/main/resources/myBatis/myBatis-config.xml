@@ -18,7 +18,7 @@
 	</environments>
 	
 	<mappers>
-		<mapper resource="myBatis/map1.xml"/>
+		<mapper resource="myBatis/userInfoSqlMapper.xml"/>
 	</mappers>
 	
 </configuration>

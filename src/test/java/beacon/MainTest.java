@@ -17,6 +17,9 @@ import com.hao.logger.MyLogger;
 import com.hao.storage.DataStruct1;
 import com.hao.storage.SqlText;
 import com.hao.storage.StoragePlatesImpl;
+
+import sun.misc.GC;
+
 import com.hao.myBatis.*;
 
 
@@ -56,7 +59,7 @@ public class MainTest {
 		System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 	}
 	
-	private static void test5() throws IOException {
+	private static void test5() throws Exception {
 		
 		String resource = "myBatis/myBatis-config.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -69,8 +72,28 @@ public class MainTest {
 			session.insert("com.hao.mapping.userMapper.add", user);
 			session.commit();
 			List<UserInfo> userinfos = session.selectList("com.hao.mapping.userMapper.list");
+			int count = 0;
 			for(UserInfo user1:userinfos) {
-				System.out.println(user1);
+				System.out.println(count+" "+user1);
+				count++;
+			}
+		}finally {
+			session.close();
+		}
+	}
+	private static void test6() throws IOException {
+
+		String resource = "myBatis/myBatis-config.xml";
+		InputStream inputStream = Resources.getResourceAsStream(resource);
+		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		SqlSession session = sqlSessionFactory.openSession();
+		
+		UserInfoMapper userInfoMapper = session.getMapper(UserInfoMapper.class);
+		
+		try {
+			List<UserInfo> list = userInfoMapper.list();
+			for(UserInfo userInfo:list) {
+				System.out.println(userInfo);
 			}
 		}finally {
 			session.close();
@@ -78,11 +101,13 @@ public class MainTest {
 	}
 
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 
-		test3();
-		test5();
+		//test3();
+		//test5();
+		test6();
+		
 	}
 
 }
